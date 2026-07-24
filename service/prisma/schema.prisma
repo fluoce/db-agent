@@ -1,0 +1,32 @@
+generator client {
+  provider     = "prisma-client-js"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Database {
+  id        String       @id
+  userId    String
+  host      String
+  port      Int
+  user      String
+  password  String
+  database  String
+  type      DatabaseType
+  objectKey String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@unique([host, port, database, user, userId])
+  @@index([userId])
+}
+
+enum DatabaseType {
+  POSTGRES
+  MONGODB
+  MSSQL
+}

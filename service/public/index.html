@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB Agent</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #111827;
+            color: white;
+            font-family: Arial;
+        }
+
+        .container {
+            width: 900px;
+            margin: 40px auto;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        #messages {
+            background: #1f2937;
+
+            border-radius: 10px;
+
+            padding: 20px;
+
+            min-height: 500px;
+
+            overflow: auto;
+
+            line-height: 1.7;
+        }
+
+        .footer {
+            margin-top: 20px;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+        textarea {
+            flex: 1;
+
+            height: 70px;
+
+            resize: none;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+        }
+
+        button {
+            width: 120px;
+
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+        pre {
+            background: #0f172a;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            overflow: auto;
+        }
+
+        code {
+            color: #7dd3fc;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #374151;
+
+            padding: 10px;
+        }
+
+        blockquote {
+            border-left: 4px solid #3b82f6;
+
+            padding-left: 15px;
+
+            color: #d1d5db;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h2>DB Agent</h2>
+        </div>
+
+        <div id="messages"></div>
+
+        <div class="footer">
+
+            <textarea id="prompt" placeholder="Ask anything..."></textarea>
+
+            <button id="send">
+                Send
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
