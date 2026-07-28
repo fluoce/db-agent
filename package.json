@@ -1,0 +1,16 @@
+{
+  "name": "database-agent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm --prefix ui dev\" \"pnpm --prefix service dev\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.2",
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

@@ -1,0 +1,124 @@
+### email
+POST http://localhost:3001/email
+Content-Type: application/json
+
+{
+  "email": <email>
+}
+
+
+### verify-email
+POST http://localhost:3001/email/verify
+Content-Type: application/json
+
+{
+  "email": <email>,
+  "otp": <OTP>
+}
+
+
+### phone
+POST http://localhost:3001/phone
+Content-Type: application/json
+
+{
+  "phone": <phone-number>
+}
+
+
+### verify-phone 
+POST http://localhost:3001/phone/verify
+Content-Type: application/json
+
+{
+  "phone": <phone-number>,
+  "otp": <otp>,
+  "name": <name>
+}
+
+
+### google
+POST http://localhost:3001/google
+Content-Type: application/json
+
+{
+  "code": <google's code>
+}
+
+
+### github
+POST http://localhost:3001/github
+Content-Type: application/json
+
+{
+  "code": <github's code>
+}
+
+
+### exchange-code
+POST http://localhost:3001/exchange
+Content-Type: application/json
+
+{ 
+  "code": <code>
+}
+
+
+### me
+GET http://localhost:3001/me
+Content-Type: application/json
+Authorization: Bearer <access-token>
+
+
+### update 
+POST http://localhost:3001/me
+Content-Type: application/json
+Authorization: Bearer <access-token>
+{
+  "name": <name>,
+  "photo": <url>
+}
+
+
+### add email
+POST http://localhost:3001/me/add/email
+Content-Type: application/json
+Authorization: Bearer <access-token>
+{
+   "email":<email>,
+   "otp":<otp>
+}
+
+
+### add phone
+POST http://localhost:3001/me/add/phone
+Content-Type: application/json
+Authorization: Bearer <access-token>
+{
+  "phone":<phone-number>,
+  "otp":<otp>
+}
+
+
+### refresh-token
+POST http://localhost:3001/refresh
+Content-Type: application/json
+Authorization: Bearer <refresh-token>
+
+
+### refresh token (sets cookies in browser)
+POST http://localhost:3001/refresh/me/session
+Content-Type: application/json
+Authorization: Bearer <refresh-token>
+
+
+### logout
+POST http://localhost:3001/logout
+Content-Type: application/json
+Authorization: Bearer <refresh-token>
+
+
+### logout from everywhere
+POST http://localhost:3001/logout/all
+Content-Type: application/json
+Authorization: Bearer <refresh-token>
