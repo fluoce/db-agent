@@ -25,24 +25,10 @@ export class DbService {
     private readonly id: IdService,
   ) {}
 
-  async test({
-    host,
-    port,
-    database,
-    password,
-    type,
-    user,
-  }: DbConnectDto): Promise<ResType> {
-    const adapter = this.databaseFactory.getAdapter(type);
+  async test(dbConnectDto: DbConnectDto): Promise<ResType> {
+    const adapter = this.databaseFactory.getAdapter(dbConnectDto.type);
 
-    const { success, message } = await adapter.test({
-      host,
-      port,
-      user,
-      password,
-      database,
-      type,
-    });
+    const { success, message } = await adapter.test(dbConnectDto);
 
     return {
       message,
@@ -81,6 +67,7 @@ export class DbService {
         password: connectionDto.password,
         database: connectionDto.database,
         type: connectionDto.type as DatabaseType,
+        ssl: connectionDto.ssl,
       },
       connectionId: id,
     });
@@ -147,6 +134,18 @@ export class DbService {
     return {
       database: null,
       message: dbResMessage.dbDeleteSuccess,
+    };
+  }
+
+  async getDbsByUserId({ userId }: { userId: string }): Promise<ResType> {
+    const databases = await this.dbCore.getByUserId({ userId });
+
+    return {
+      database: databases ?? [],
+      message:
+        databases && databases.length > 0
+          ? dbResMessage.dbGetSuccess
+          : dbResMessage.dbGetEmpty,
     };
   }
 }

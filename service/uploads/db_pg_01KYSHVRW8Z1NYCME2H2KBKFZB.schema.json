@@ -1,0 +1,851 @@
+{
+  "connectionId": "db_pg_01KYSHVRW8Z1NYCME2H2KBKFZB",
+  "database": {
+    "engine": "postgresql",
+    "version": "17.10",
+    "full_version": "PostgreSQL 17.10 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.1 20260123 (Red Hat 15.2.1-7), 64-bit",
+    "name": "defaultdb",
+    "schema": "public"
+  },
+  "enums": [
+    {
+      "name": "FormStatus",
+      "values": [
+        "DRAFT",
+        "PUBLISHED",
+        "ARCHIVED"
+      ]
+    },
+    {
+      "name": "FormSubmitStatus",
+      "values": [
+        "PARTIAL",
+        "COMPLETED"
+      ]
+    },
+    {
+      "name": "FormTheme",
+      "values": [
+        "AMBER",
+        "BLUE",
+        "CYAN",
+        "EMERALD",
+        "FUCHSIA",
+        "GREEN",
+        "INDIGO",
+        "LIME",
+        "ORANGE",
+        "PINK",
+        "PURPLE",
+        "RED",
+        "ROSE",
+        "SKY",
+        "TEAL",
+        "VIOLET",
+        "YELLOW",
+        "DEFAULT"
+      ]
+    },
+    {
+      "name": "MemberStatus",
+      "values": [
+        "ACTIVE",
+        "INVITED",
+        "REMOVED"
+      ]
+    },
+    {
+      "name": "WorkspaceMembersRole",
+      "values": [
+        "OWNER",
+        "ADMIN",
+        "MEMBER",
+        "VIEWER"
+      ]
+    },
+    {
+      "name": "WorkspacePlan",
+      "values": [
+        "STARTER",
+        "PLUS",
+        "PRO",
+        "PREMIUM",
+        "ENTERPRISE"
+      ]
+    },
+    {
+      "name": "WorkspaceStatus",
+      "values": [
+        "ACTIVE",
+        "INACTIVE",
+        "SUSPENDED",
+        "ARCHIVED"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "name": "Form",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "workspaceId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "slug",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "enumName": "FormStatus",
+          "enumValues": [
+            "DRAFT",
+            "PUBLISHED",
+            "ARCHIVED"
+          ],
+          "isNullable": false
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "userId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "theme",
+          "type": "enum",
+          "enumName": "FormTheme",
+          "enumValues": [
+            "AMBER",
+            "BLUE",
+            "CYAN",
+            "EMERALD",
+            "FUCHSIA",
+            "GREEN",
+            "INDIGO",
+            "LIME",
+            "ORANGE",
+            "PINK",
+            "PURPLE",
+            "RED",
+            "ROSE",
+            "SKY",
+            "TEAL",
+            "VIOLET",
+            "YELLOW",
+            "DEFAULT"
+          ],
+          "isNullable": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "shareId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "version",
+          "type": "int4",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "Form_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        },
+        {
+          "name": "Form_shareId_key",
+          "columns": [
+            "shareId"
+          ],
+          "unique": true
+        },
+        {
+          "name": "Form_workspaceId_slug_key",
+          "columns": [
+            "workspaceId",
+            "slug"
+          ],
+          "unique": true
+        },
+        {
+          "name": "Form_workspaceId_status_idx",
+          "columns": [
+            "workspaceId",
+            "status"
+          ],
+          "unique": false
+        },
+        {
+          "name": "Form_workspaceId_userId_idx",
+          "columns": [
+            "workspaceId",
+            "userId"
+          ],
+          "unique": false
+        }
+      ],
+      "relations": [
+        {
+          "type": "many-to-one",
+          "column": "workspaceId",
+          "references": {
+            "table": "Workspace",
+            "column": "id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "FormField",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "formId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "formPageId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "config",
+          "type": "jsonb",
+          "isNullable": false
+        },
+        {
+          "name": "position",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "FormField_formId_idx",
+          "columns": [
+            "formId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "FormField_formPageId_position_key",
+          "columns": [
+            "formPageId",
+            "position"
+          ],
+          "unique": true
+        },
+        {
+          "name": "FormField_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": [
+        {
+          "type": "many-to-one",
+          "column": "formPageId",
+          "references": {
+            "table": "FormPage",
+            "column": "id"
+          }
+        },
+        {
+          "type": "many-to-one",
+          "column": "formId",
+          "references": {
+            "table": "Form",
+            "column": "id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "FormPage",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "formId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "position",
+          "type": "text",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "FormPage_formId_idx",
+          "columns": [
+            "formId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "FormPage_formId_position_key",
+          "columns": [
+            "formId",
+            "position"
+          ],
+          "unique": true
+        },
+        {
+          "name": "FormPage_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": [
+        {
+          "type": "many-to-one",
+          "column": "formId",
+          "references": {
+            "table": "Form",
+            "column": "id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SubmissionAnswer",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "submitId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "fieldId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "valueText",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "valueNumber",
+          "type": "float8",
+          "isNullable": true
+        },
+        {
+          "name": "valueBoolean",
+          "type": "bool",
+          "isNullable": true
+        },
+        {
+          "name": "valueJson",
+          "type": "jsonb",
+          "isNullable": true
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "SubmissionAnswer_fieldId_idx",
+          "columns": [
+            "fieldId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "SubmissionAnswer_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        },
+        {
+          "name": "SubmissionAnswer_submitId_fieldId_key",
+          "columns": [
+            "submitId",
+            "fieldId"
+          ],
+          "unique": true
+        },
+        {
+          "name": "SubmissionAnswer_submitId_idx",
+          "columns": [
+            "submitId"
+          ],
+          "unique": false
+        }
+      ],
+      "relations": [
+        {
+          "type": "many-to-one",
+          "column": "submitId",
+          "references": {
+            "table": "Submit",
+            "column": "id"
+          }
+        },
+        {
+          "type": "many-to-one",
+          "column": "fieldId",
+          "references": {
+            "table": "FormField",
+            "column": "id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Submit",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "formId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "enumName": "FormSubmitStatus",
+          "enumValues": [
+            "PARTIAL",
+            "COMPLETED"
+          ],
+          "isNullable": false
+        },
+        {
+          "name": "ipAddress",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "completedAt",
+          "type": "timestamp",
+          "isNullable": true
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "browser",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "device",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "os",
+          "type": "text",
+          "isNullable": true
+        }
+      ],
+      "indexes": [
+        {
+          "name": "Submit_formId_idx",
+          "columns": [
+            "formId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "Submit_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": [
+        {
+          "type": "many-to-one",
+          "column": "formId",
+          "references": {
+            "table": "Form",
+            "column": "id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workspace",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "slug",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "ownerId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "enumName": "WorkspaceStatus",
+          "enumValues": [
+            "ACTIVE",
+            "INACTIVE",
+            "SUSPENDED",
+            "ARCHIVED"
+          ],
+          "isNullable": false
+        },
+        {
+          "name": "plan",
+          "type": "enum",
+          "enumName": "WorkspacePlan",
+          "enumValues": [
+            "STARTER",
+            "PLUS",
+            "PRO",
+            "PREMIUM",
+            "ENTERPRISE"
+          ],
+          "isNullable": false
+        },
+        {
+          "name": "limits",
+          "type": "jsonb",
+          "isNullable": true
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "ownerEmail",
+          "type": "text",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "Workspace_ownerId_idx",
+          "columns": [
+            "ownerId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "Workspace_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        },
+        {
+          "name": "Workspace_slug_key",
+          "columns": [
+            "slug"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": []
+    },
+    {
+      "name": "WorkspaceMember",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "workspaceId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "userId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "userEmail",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "role",
+          "type": "enum",
+          "enumName": "WorkspaceMembersRole",
+          "enumValues": [
+            "OWNER",
+            "ADMIN",
+            "MEMBER",
+            "VIEWER"
+          ],
+          "isNullable": false
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "enumName": "MemberStatus",
+          "enumValues": [
+            "ACTIVE",
+            "INVITED",
+            "REMOVED"
+          ],
+          "isNullable": false
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "WorkspaceMember_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        },
+        {
+          "name": "WorkspaceMember_userId_idx",
+          "columns": [
+            "userId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "WorkspaceMember_workspaceId_idx",
+          "columns": [
+            "workspaceId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "WorkspaceMember_workspaceId_userId_key",
+          "columns": [
+            "workspaceId",
+            "userId"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": [
+        {
+          "type": "many-to-one",
+          "column": "workspaceId",
+          "references": {
+            "table": "Workspace",
+            "column": "id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "_prisma_migrations",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "varchar(36)",
+          "isNullable": false
+        },
+        {
+          "name": "checksum",
+          "type": "varchar(64)",
+          "isNullable": false
+        },
+        {
+          "name": "finished_at",
+          "type": "timestamptz",
+          "isNullable": true
+        },
+        {
+          "name": "migration_name",
+          "type": "varchar(255)",
+          "isNullable": false
+        },
+        {
+          "name": "logs",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "rolled_back_at",
+          "type": "timestamptz",
+          "isNullable": true
+        },
+        {
+          "name": "started_at",
+          "type": "timestamptz",
+          "isNullable": false
+        },
+        {
+          "name": "applied_steps_count",
+          "type": "int4",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "_prisma_migrations_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": []
+    }
+  ]
+}

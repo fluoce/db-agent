@@ -1,4 +1,10 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 import { DatabaseType } from 'src/module/database/types/database.types';
 
 export class DbConnectDto {
@@ -25,4 +31,8 @@ export class DbConnectDto {
   @IsEnum(DatabaseType)
   @IsNotEmpty()
   type!: DatabaseType;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  ssl?: boolean;
 }

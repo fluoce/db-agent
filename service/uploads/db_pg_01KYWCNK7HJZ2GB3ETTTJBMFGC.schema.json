@@ -1,0 +1,184 @@
+{
+  "connectionId": "db_pg_01KYWCNK7HJZ2GB3ETTTJBMFGC",
+  "database": {
+    "engine": "postgresql",
+    "version": "15.17",
+    "full_version": "PostgreSQL 15.17 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+    "name": "db-agent",
+    "schema": "public"
+  },
+  "enums": [
+    {
+      "name": "DatabaseType",
+      "values": [
+        "POSTGRES",
+        "MONGODB",
+        "MSSQL"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "name": "Database",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "host",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "port",
+          "type": "int4",
+          "isNullable": false
+        },
+        {
+          "name": "user",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "password",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "database",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "type",
+          "type": "enum",
+          "enumName": "DatabaseType",
+          "enumValues": [
+            "POSTGRES",
+            "MONGODB",
+            "MSSQL"
+          ],
+          "isNullable": false
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "objectKey",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "userId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "ssl",
+          "type": "bool",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "Database_host_port_database_user_userId_key",
+          "columns": [
+            "host",
+            "port",
+            "database",
+            "user",
+            "userId"
+          ],
+          "unique": true
+        },
+        {
+          "name": "Database_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        },
+        {
+          "name": "Database_userId_idx",
+          "columns": [
+            "userId"
+          ],
+          "unique": false
+        }
+      ],
+      "relations": []
+    },
+    {
+      "name": "_prisma_migrations",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "varchar(36)",
+          "isNullable": false
+        },
+        {
+          "name": "checksum",
+          "type": "varchar(64)",
+          "isNullable": false
+        },
+        {
+          "name": "finished_at",
+          "type": "timestamptz",
+          "isNullable": true
+        },
+        {
+          "name": "migration_name",
+          "type": "varchar(255)",
+          "isNullable": false
+        },
+        {
+          "name": "logs",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "rolled_back_at",
+          "type": "timestamptz",
+          "isNullable": true
+        },
+        {
+          "name": "started_at",
+          "type": "timestamptz",
+          "isNullable": false
+        },
+        {
+          "name": "applied_steps_count",
+          "type": "int4",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "_prisma_migrations_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": []
+    }
+  ]
+}

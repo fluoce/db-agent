@@ -16,6 +16,7 @@ model Database {
   password  String
   database  String
   type      DatabaseType
+  ssl       Boolean      @default(false)
   objectKey String
 
   createdAt DateTime @default(now())

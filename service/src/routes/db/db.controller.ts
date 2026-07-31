@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { DbConnectDto } from './types/db.types';
 import { DbService } from './db.service';
 import { User } from 'src/decorator/user.decorator';
@@ -12,17 +12,8 @@ export class DbController {
 
   @DbPublic()
   @Post('test')
-  async test(
-    @Body() { host, port, user, password, database, type }: DbConnectDto,
-  ) {
-    return await this.dbService.test({
-      host,
-      port,
-      user,
-      password,
-      database,
-      type,
-    });
+  async test(@Body() dbConnectDto: DbConnectDto) {
+    return await this.dbService.test(dbConnectDto);
   }
 
   @DbPublic()
@@ -37,5 +28,11 @@ export class DbController {
   @Delete(':databaseId')
   async delete(@User() user: UserPayload, @Db() database: Database) {
     return await this.dbService.delete({ database, userId: user?.sub });
+  }
+
+  @DbPublic()
+  @Get()
+  async getDb(@User() user: UserPayload) {
+    return await this.dbService.getDbsByUserId({ userId: user.sub });
   }
 }

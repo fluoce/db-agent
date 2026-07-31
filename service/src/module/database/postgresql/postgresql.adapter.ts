@@ -11,7 +11,6 @@ import type { StorageService } from 'src/module/storage/types/storage.interface'
 import { activeStorageProvider } from 'src/config/storage.config';
 import { buildPrompt } from './func/build.prompt';
 import { validateSql } from './func/vaildate.sql';
-import { DatabaseCoreService } from 'src/core/database-core/database-core.service';
 import { Database } from '@prisma/client';
 
 @Injectable()
@@ -21,24 +20,21 @@ export class PostgresqlAdapter implements DbAdapterInterface {
     private readonly llm: LlmFactory,
     @Inject(activeStorageProvider)
     private readonly storage: StorageService,
-    private readonly dbCore: DatabaseCoreService,
   ) {}
 
   connection(connectionDto: DbConnectDto): knex.Knex {
+    const { ssl, ...rest } = connectionDto;
     return knex({
       client: 'pg',
       connection: {
-        ...connectionDto,
-        ssl: {
-          rejectUnauthorized: false,
-        },
+        ...rest,
+        ssl: ssl ? { rejectUnauthorized: false } : undefined,
       },
     });
   }
 
   disConnection(pg: knex.Knex) {
     pg.destroy();
-    return pg;
   }
 
   async test(connectionDto: DbConnectDto): Promise<{
@@ -58,7 +54,7 @@ export class PostgresqlAdapter implements DbAdapterInterface {
         success: false,
       };
     } finally {
-      await pg.destroy();
+      this.disConnection(pg);
     }
   }
 
@@ -86,6 +82,8 @@ export class PostgresqlAdapter implements DbAdapterInterface {
         pg,
       }),
     ]);
+
+    this.disConnection(pg);
 
     if (!databaseInfo) {
       return {
@@ -214,6 +212,7 @@ export class PostgresqlAdapter implements DbAdapterInterface {
       user: database?.user,
       password: database?.password,
       type: database?.type as DatabaseType,
+      ssl: database.ssl,
     });
 
     const result = await pg.raw(query).catch(() => {});

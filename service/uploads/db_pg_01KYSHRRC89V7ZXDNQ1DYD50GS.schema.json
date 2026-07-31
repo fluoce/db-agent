@@ -1,0 +1,258 @@
+{
+  "connectionId": "db_pg_01KYSHRRC89V7ZXDNQ1DYD50GS",
+  "database": {
+    "engine": "postgresql",
+    "version": "17.10",
+    "full_version": "PostgreSQL 17.10 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.1 20260123 (Red Hat 15.2.1-7), 64-bit",
+    "name": "defaultdb",
+    "schema": "public"
+  },
+  "enums": [],
+  "tables": [
+    {
+      "name": "RefreshToken",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "userId",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "tokenHash",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "graceTokenHash",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "graceUntil",
+          "type": "timestamp",
+          "isNullable": true
+        },
+        {
+          "name": "revoked",
+          "type": "bool",
+          "isNullable": false
+        },
+        {
+          "name": "expiresAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "RefreshToken_graceTokenHash_key",
+          "columns": [
+            "graceTokenHash"
+          ],
+          "unique": true
+        },
+        {
+          "name": "RefreshToken_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        },
+        {
+          "name": "RefreshToken_tokenHash_key",
+          "columns": [
+            "tokenHash"
+          ],
+          "unique": true
+        },
+        {
+          "name": "RefreshToken_userId_idx",
+          "columns": [
+            "userId"
+          ],
+          "unique": false
+        }
+      ],
+      "relations": [
+        {
+          "type": "many-to-one",
+          "column": "userId",
+          "references": {
+            "table": "User",
+            "column": "id"
+          }
+        },
+        {
+          "type": "many-to-one",
+          "column": "userId",
+          "references": {
+            "table": "User",
+            "column": "id"
+          }
+        },
+        {
+          "type": "many-to-one",
+          "column": "userId",
+          "references": {
+            "table": "User",
+            "column": "id"
+          }
+        },
+        {
+          "type": "many-to-one",
+          "column": "userId",
+          "references": {
+            "table": "User",
+            "column": "id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "isNullable": false
+        },
+        {
+          "name": "email",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "photo",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "isNullable": false
+        },
+        {
+          "name": "phone",
+          "type": "text",
+          "isNullable": true
+        }
+      ],
+      "indexes": [
+        {
+          "name": "User_email_key",
+          "columns": [
+            "email"
+          ],
+          "unique": true
+        },
+        {
+          "name": "User_phone_key",
+          "columns": [
+            "phone"
+          ],
+          "unique": true
+        },
+        {
+          "name": "User_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": []
+    },
+    {
+      "name": "_prisma_migrations",
+      "description": null,
+      "primaryKey": [
+        "id"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "type": "varchar(36)",
+          "isNullable": false
+        },
+        {
+          "name": "checksum",
+          "type": "varchar(64)",
+          "isNullable": false
+        },
+        {
+          "name": "finished_at",
+          "type": "timestamptz",
+          "isNullable": true
+        },
+        {
+          "name": "migration_name",
+          "type": "varchar(255)",
+          "isNullable": false
+        },
+        {
+          "name": "logs",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "rolled_back_at",
+          "type": "timestamptz",
+          "isNullable": true
+        },
+        {
+          "name": "started_at",
+          "type": "timestamptz",
+          "isNullable": false
+        },
+        {
+          "name": "applied_steps_count",
+          "type": "int4",
+          "isNullable": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "_prisma_migrations_pkey",
+          "columns": [
+            "id"
+          ],
+          "unique": true
+        }
+      ],
+      "relations": []
+    }
+  ]
+}

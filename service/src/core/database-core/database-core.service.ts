@@ -72,6 +72,20 @@ export class DatabaseCoreService {
     });
   }
 
+  async getByUserId({ userId }: { userId: string }) {
+    return await funcTryCatch<Database[] | null, null>({
+      func: () => {
+        return this.prisma.database.findMany({
+          where: {
+            userId,
+          },
+        });
+      },
+      logger: this.logger,
+      action: `database_getByUserId_${userId}`,
+    });
+  }
+
   async delete({ databaseId, userId }: { databaseId: string; userId: string }) {
     return await funcTryCatch<Database, null>({
       func: () => {
